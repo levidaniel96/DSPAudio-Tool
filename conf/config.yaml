@@ -1,0 +1,55 @@
+# =========== Parameters ===========
+params:
+  # ========= General ==========
+  num_of_samples: 1000
+  fs: 16000
+  M: 1 # number of microphones
+  record_time: 1 # in seconds
+  num_spk: 1
+  ref_mic: 0 # the reference microphone
+  T60_min: 0.1
+  T60_max: 0.5
+  # ========= Speker ==========
+  speaker_min_distance_from_wall: 0.5
+  speaker_min_distance_from_mic: 1.5
+  speaker_max_distance_from_mic: 1.5
+  speaker_min_height: 1.5
+  speaker_max_height: 1.5
+  # ========= Mic ==========
+
+  mic_dis_x: 0.5 # distance between the microphones
+  mic_dis_y: 0.5 # distance between the microphones 
+  mic_min_distance_from_wall: 0.5 # distance from the wall 
+  mic_min_height: 1.5 # min height from the floor
+  mic_max_height: 1.5 # max height from the floor
+
+  # ========= Room ==========
+  room_min_x: 3 # min room size in the x axis
+  room_max_x: 6 # max room size in the x axis
+  room_min_y: 3 # min room size in the y axis
+  room_max_y: 6 # max room size in the y axis 
+  room_min_height: 2 # min room height 
+  room_max_height: 2.5 # max room height 
+
+  # ===== For room size calssification =====
+
+  mid_size_room_XYratio_threshold: 1.5 # for room size classification - the threshold for the ratio between the x and y axis(above this value the room is considered to be long )
+  small_room_volume_threshold: 20   # for room size classification - the threshold for the room volume (below this value the room is considered to be small) 
+# ========== data-sets =============
+data_set: /home/dsi/levidan2/code/LCMV/code_for_git/create_data_set_RIR/data
+paths:
+  clean_data_set_path: /dsi/gannot-lab1/datasets/LibriSpeech/LibriSpeech/Train/ 
+  save_data_set_path: ${data_set}/
+
+# ============ Flags ===============
+flags:
+  save_RIR: True  
+  save_wav: True
+  env_noise: True
+  white_noise: True
+
+# ========== Hydra config ==========
+hydra:
+  run:
+    dir: ${data_set}/outputs/${now:%Y-%m-%d}/${now:%H-%M-%S}
+
