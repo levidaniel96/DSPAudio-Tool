@@ -34,13 +34,13 @@ def generate_room_parameters(params):
     while Lx < 2*params.mic_min_distance_from_wall or Ly < 2*params.mic_min_distance_from_wall:
         Lx = np.random.uniform(params.room_min_x, params.room_max_x)
         Ly = np.random.uniform(params.room_min_y, params.room_max_y)
-    while Lz < 2*params.mic_min_height:
+    while Lz < params.mic_max_height:
         Lz = np.random.uniform(params.room_min_height, params.room_max_height)
         
     # Generate random microphone position and ensure it's not too close to the wall
     mic_x = np.random.uniform(params.mic_min_distance_from_wall, Lx - params.mic_min_distance_from_wall)
     mic_y = np.random.uniform(params.mic_min_distance_from_wall, Ly - params.mic_min_distance_from_wall)
-    mic_z = np.random.uniform(params.mic_min_height, Lz - params.mic_min_height)
+    mic_z = np.random.uniform(params.mic_min_height, params.mic_max_height)
 
     while np.sqrt((Lx - mic_x) ** 2 + (Ly - mic_y) ** 2) < params.mic_min_distance_from_wall:
         mic_x = np.random.uniform(params.mic_min_distance_from_wall, Lx - params.mic_min_distance_from_wall)
