@@ -18,11 +18,12 @@ def create_MyDataset(paths,params,flags):
     # Create directories if they don't exist
     save_dir_data = paths.save_data_set_path + 'data/'
     if not os.path.exists(save_dir_data) and flags.save_wav:
-        os.makedirs(save_dir_data)
+        for spk in range(params.num_spk):
+            os.makedirs(save_dir_data+'spk_'+str(spk)+'/')
     save_dir_RIR = paths.save_data_set_path + 'RIR/'
     if not os.path.exists(save_dir_RIR) and flags.save_RIR:
-        os.makedirs(save_dir_RIR)    
-
+        for spk in range(params.num_spk):
+            os.makedirs(save_dir_RIR+'spk_'+str(spk)+'/')
 
 
     # Write room parameters to CSV file
@@ -65,7 +66,7 @@ def create_MyDataset(paths,params,flags):
                     w_n=np.random.randn(params.M,params.record_time*params.fs)
                 if flags.env_noise:
                     # rand noise from noise folder
-                    noise_path='/dsi/gannot-lab1/users/Daniel_Levi/T60_project/Noisex-92/'
+                    noise_path=paths.env_noise_path
                     noise_paths=extract_wav_paths(noise_path)
                     # rand noise from noise paths
                     rand_num=randint.rvs(0,len(noise_paths))
@@ -124,6 +125,7 @@ def create_MyDataset(paths,params,flags):
 
                 #%% save data as wav files
                 if flags.save_wav:
-                    sf.write(save_dir_data+'y_'+str(sample_num)+'_spk_'+str(spk)+'.wav', y.T, params.fs)
+                    sf.write(save_dir_data+'spk_'+str(spk)+'/y_'+str(sample_num)+'.wav', y.T, params.fs)
                 if flags.save_RIR:
-                    sf.write(save_dir_RIR+'h_'+str(sample_num)+'_spk_'+str(spk)+'.wav', h, params.fs)
+                    sf.write(save_dir_RIR+'spk_'+str(spk)+'/h_'+str(sample_num)+'.wav', h, params.fs)
+

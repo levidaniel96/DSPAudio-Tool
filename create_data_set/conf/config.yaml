@@ -5,7 +5,7 @@ params:
   fs: 16000
   M: 1 # number of microphones
   record_time: 1 # in seconds
-  num_spk: 1
+  num_spk: 2
   ref_mic: 0 # the reference microphone
   T60_min: 0.1
   T60_max: 0.5
@@ -46,6 +46,7 @@ data_set: /home/dsi/levidan2/code/LCMV/code_for_git/create_data_set_RIR/create_d
 paths:
   clean_data_set_path: /dsi/gannot-lab1/datasets/LibriSpeech/LibriSpeech/Train/ 
   save_data_set_path: ${data_set}/
+  env_noise_path: /home/dsi/levidan2/code/LCMV/code_for_git/create_data_set_RIR/create_data_set/env_noise_example
 
 # ============ Flags ===============
 flags:

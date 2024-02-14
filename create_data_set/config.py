@@ -50,6 +50,7 @@ class Params:
 class Paths:
     clean_data_set_path: str = ""
     save_data_set_path: str = ""
+    env_noise_path: str = ""
 @dataclass
 class Flags:
     save_RIR: bool = True
