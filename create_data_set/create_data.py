@@ -29,9 +29,11 @@ def create_MyDataset(paths,params,flags):
     with open(csv_file, 'w', newline='') as file:
         writer = csv.writer(file)
         header = generate_room_parameters(params).keys()
-        header['fs']=params.fs
-        header['Sample_num']='Sample_num'
-        writer.writerow(header)
+        existing_keys_dict = dict.fromkeys(header)
+        existing_keys_dict['fs'] = None  
+        existing_keys_dict['Sample_num']=None
+
+        writer.writerow(existing_keys_dict.keys())
         
     
         # Write multiple samples
@@ -59,12 +61,12 @@ def create_MyDataset(paths,params,flags):
 
                 # Signal processing for M microphones           
                 #%% create noises
-                if flags.white_noise_flag:
-                    w_n=np.squeeze(np.random.randn(params.M,params.record_time*params.fs))
                 if flags.white_noise:
+                    w_n=np.random.randn(params.M,params.record_time*params.fs)
+                if flags.env_noise:
                     # rand noise from noise folder
                     noise_path='/dsi/gannot-lab1/users/Daniel_Levi/T60_project/Noisex-92/'
-                    noise_paths=extract_wav_paths(noise_path,T60=False)
+                    noise_paths=extract_wav_paths(noise_path)
                     # rand noise from noise paths
                     rand_num=randint.rvs(0,len(noise_paths))
                     n,sampale_rate=sf.read(noise_paths[rand_num])
@@ -74,7 +76,7 @@ def create_MyDataset(paths,params,flags):
                     n =np.tile(n, (params.M, 1)) 
                 Librti_path=paths.clean_data_set_path
                 book_folder=random.choice(os.listdir(Librti_path))    
-
+        
                 while book_folder=='hist.png':
                     book_folder=random.choice(os.listdir(Librti_path))    
                 Librti_path=Librti_path+book_folder+'/'
@@ -98,19 +100,20 @@ def create_MyDataset(paths,params,flags):
                 for m in range(params.M):
                     x[m,:]=np.convolve(s, h[:,m], mode='same')
                 #%% add noise to the signal 
-                SNR=randint.rvs(10,20)
+                SNR_white_noise=randint.rvs(params.SNR_white_noise_low,params.SNR_white_noise_high)
+                SNR_env_noise=randint.rvs(params.SNR_env_noise_low,params.SNR_env_noise_high)
                 if flags.white_noise and not flags.env_noise:
-                    G2=sum(x[params.ref_mic,:]**2)/sum(w_n[params.ref_mic,:]**2)*10**(-SNR/10)
+                    G2=sum(x[params.ref_mic,:]**2)/sum(w_n[params.ref_mic,:]**2)*10**(-SNR_white_noise/10)
                     noise=np.sqrt(G2)*w_n
                     y=x+noise
                 elif flags.env_noise and not flags.white_noise:
-                    G2=sum(x[params.ref_mic,:]**2)/sum(n[params.ref_mic,:]**2)*10**(-SNR/10)
+                    G2=sum(x[params.ref_mic,:]**2)/sum(n[params.ref_mic,:]**2)*10**(-SNR_env_noise/10)
                     noise=np.sqrt(G2)*n
                     y=x+noise
                 elif flags.white_noise and flags.env_noise:
-                    G2=sum(x[params.ref_mic,:]**2)/sum(n[params.ref_mic,:]**2)*10**(-SNR/10)
+                    G2=sum(x[params.ref_mic,:]**2)/sum(n[params.ref_mic,:]**2)*10**(-SNR_env_noise/10)
                     noise=np.sqrt(G2)*n
-                    G2=sum(x[params.ref_mic,:]**2)/sum(w_n[params.ref_mic,:]**2)*10**(-SNR/10)
+                    G2=sum(x[params.ref_mic,:]**2)/sum(w_n[params.ref_mic,:]**2)*10**(-SNR_white_noise/10)
                     noise2=np.sqrt(G2)*w_n
                     noise=noise+noise2
                     y=x+noise
@@ -119,6 +122,8 @@ def create_MyDataset(paths,params,flags):
                 ## normalize y           
                 y=y/np.max(np.abs(y))
 
-                #%% save data as wav file
-                sf.write(save_dir_data+'y_'+str(sample_num)+'_spk_'+str(spk)+'.wav', y.T, params.fs)
-                sf.write(save_dir_RIR+'h_'+str(sample_num)+'_spk_'+str(spk)+'.wav', h, params.fs)
+                #%% save data as wav files
+                if flags.save_wav:
+                    sf.write(save_dir_data+'y_'+str(sample_num)+'_spk_'+str(spk)+'.wav', y.T, params.fs)
+                if flags.save_RIR:
+                    sf.write(save_dir_RIR+'h_'+str(sample_num)+'_spk_'+str(spk)+'.wav', h, params.fs)

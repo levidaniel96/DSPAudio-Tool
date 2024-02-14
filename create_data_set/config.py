@@ -35,6 +35,13 @@ class Params:
     room_min_height: float = 2
     room_max_height: float = 2.5
 
+    # noise
+    SNR_white_noise_low: int = 0
+    SNR_white_noise_high: int = 10
+    SNR_env_noise_low: int = 0
+    SNR_env_noise_high: int = 10
+
+    
     # For room size classification
     mid_size_room_XYratio_threshold: float = 1.5
     small_room_volume_threshold: int = 20

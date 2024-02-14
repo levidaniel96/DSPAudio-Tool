@@ -31,12 +31,18 @@ params:
   room_min_height: 2 # min room height 
   room_max_height: 2.5 # max room height 
 
+  # ========= noise ==========
+  SNR_white_noise_low: 0
+  SNR_white_noise_high: 10
+  SNR_env_noise_low: 0
+  SNR_env_noise_high: 10
+
   # ===== For room size calssification =====
 
   mid_size_room_XYratio_threshold: 1.5 # for room size classification - the threshold for the ratio between the x and y axis(above this value the room is considered to be long )
   small_room_volume_threshold: 20   # for room size classification - the threshold for the room volume (below this value the room is considered to be small) 
 # ========== data-sets =============
-data_set: /home/dsi/levidan2/code/LCMV/code_for_git/create_data_set_RIR/create_data_set/data
+data_set: /home/dsi/levidan2/code/LCMV/code_for_git/create_data_set_RIR/create_data_set/dataset
 paths:
   clean_data_set_path: /dsi/gannot-lab1/datasets/LibriSpeech/LibriSpeech/Train/ 
   save_data_set_path: ${data_set}/
