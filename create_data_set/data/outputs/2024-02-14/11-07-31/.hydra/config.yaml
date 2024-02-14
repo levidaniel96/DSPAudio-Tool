@@ -10,12 +10,12 @@ params:
   speaker_min_distance_from_wall: 0.5
   speaker_min_distance_from_mic: 1.5
   speaker_max_distance_from_mic: 1.5
-  speaker_min_height: 1.5
+  speaker_min_height: 1
   speaker_max_height: 1.5
   mic_dis_x: 0.5
   mic_dis_y: 0.5
   mic_min_distance_from_wall: 0.5
-  mic_min_height: 1.5
+  mic_min_height: 1
   mic_max_height: 1.5
   room_min_x: 3
   room_max_x: 6
@@ -25,7 +25,7 @@ params:
   room_max_height: 2.5
   mid_size_room_XYratio_threshold: 1.5
   small_room_volume_threshold: 20
-data_set: /home/dsi/levidan2/code/LCMV/code_for_git/create_data_set_RIR/data
+data_set: /home/dsi/levidan2/code/LCMV/code_for_git/create_data_set_RIR/create_data_set/data
 paths:
   clean_data_set_path: /dsi/gannot-lab1/datasets/LibriSpeech/LibriSpeech/Train/
   save_data_set_path: ${data_set}/

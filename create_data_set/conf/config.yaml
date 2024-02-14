@@ -11,7 +11,7 @@ params:
   T60_max: 0.5
   # ========= Speker ==========
   speaker_min_distance_from_wall: 0.5
-  speaker_min_distance_from_mic: 1.5
+  speaker_min_distance_from_mic: 0.2
   speaker_max_distance_from_mic: 1.5
   speaker_min_height: 1
   speaker_max_height: 1.5
@@ -25,9 +25,9 @@ params:
 
   # ========= Room ==========
   room_min_x: 3 # min room size in the x axis
-  room_max_x: 6 # max room size in the x axis
+  room_max_x: 8 # max room size in the x axis
   room_min_y: 3 # min room size in the y axis
-  room_max_y: 6 # max room size in the y axis 
+  room_max_y: 8 # max room size in the y axis 
   room_min_height: 2 # min room height 
   room_max_height: 2.5 # max room height 
 
@@ -36,7 +36,7 @@ params:
   mid_size_room_XYratio_threshold: 1.5 # for room size classification - the threshold for the ratio between the x and y axis(above this value the room is considered to be long )
   small_room_volume_threshold: 20   # for room size classification - the threshold for the room volume (below this value the room is considered to be small) 
 # ========== data-sets =============
-data_set: /home/dsi/levidan2/code/LCMV/code_for_git/create_data_set_RIR/data
+data_set: /home/dsi/levidan2/code/LCMV/code_for_git/create_data_set_RIR/create_data_set/data
 paths:
   clean_data_set_path: /dsi/gannot-lab1/datasets/LibriSpeech/LibriSpeech/Train/ 
   save_data_set_path: ${data_set}/

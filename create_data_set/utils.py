@@ -9,18 +9,18 @@ def generate_room_parameters(params):
 
     Returns:
         dict: A dictionary containing the following keys:
-            - T60 (float): Random T60 between 0.3 and 1.2.
-            - Lx (float): Random room length between 4 and 18 meters.
-            - Ly (float): Random room width between 4 and 18 meters.
-            - Lz (float): Random room height between 6 and 8 meters.
-            - mic_x (float): Random microphone x position between 0.5 and Lx - 0.5 meters.
-            - mic_y (float): Random microphone y position between 0.5 and Ly - 0.5 meters.
-            - mic_z (float): Random microphone z position between 2 and Lz - 0.5 meters.
+            - T60 (float): Random T60 between min and max values.
+            - Lx (float): Random room length between min and max values.
+            - Ly (float): Random room width between min and max values.
+            - Lz (float): Random room height between min and max values.
+            - mic_x (float): Random microphone x position between min distance from wall and Lx - min distance from wall meters.
+            - mic_y (float): Random microphone y position between min distance from wall and Ly - min distance from wall meters.
+            - mic_z (float): Random microphone z position between min and max height meters.
             - sources (list): A list of dictionaries containing the x, y, and z positions of each source.
             - roomClass (int): Room classification based on dimensions and volume:
-                - 0: Small room (V < 35)
-                - 1: Mid-size room (35 <= V and XYratio < 4)
-                - 2: Long room (XYratio >= 4)
+                - 0: Small room (V < small_room_volume_threshold)
+                - 1: Mid-size room (small_room_volume_threshold <= V and XYratio < mid_size_room_XYratio_threshold)
+                - 2: Long room (XYratio >= mid_size_room_XYratio_threshold)
             - V (float): Room volume (Lx * Ly * Lz).
     """
     # Generate random T60 between 0.3 and 1.2
@@ -30,12 +30,12 @@ def generate_room_parameters(params):
     Ly = np.random.uniform(params.room_min_y, params.room_max_y)
     Lz = np.random.uniform(params.room_min_height, params.room_max_height)
     
-    ## check that the mic and sources are in the room
+    ''' ## check that the mic and sources are in the room
     while Lx < 2*params.mic_min_distance_from_wall or Ly < 2*params.mic_min_distance_from_wall:
         Lx = np.random.uniform(params.room_min_x, params.room_max_x)
         Ly = np.random.uniform(params.room_min_y, params.room_max_y)
     while Lz < params.mic_max_height:
-        Lz = np.random.uniform(params.room_min_height, params.room_max_height)
+        Lz = np.random.uniform(params.room_min_height, params.room_max_height) '''
         
     # Generate random microphone position and ensure it's not too close to the wall
     mic_x = np.random.uniform(params.mic_min_distance_from_wall, Lx - params.mic_min_distance_from_wall)
