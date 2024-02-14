@@ -11,3 +11,5 @@ dataset/
 # Ignore wav files
 *.wav
 
+# Python cache files
+__pycache__/
