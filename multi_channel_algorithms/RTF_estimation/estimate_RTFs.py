@@ -21,3 +21,14 @@ def  estimate_RTFs(paths,params):
     if not os.path.exists(paths.test_RTFs_path):
         os.makedirs(paths.test_RTFs_path)
     sio.savemat(paths.test_RTFs_path + 'RTFs_to_net.mat',train_data)
+    
+    return RTFs_to_net
+
+def __main__():
+    paths = paths_class()
+    params = params_class()
+    estimate_RTFs(paths,params)
+
+if __name__ == '__main__':
+    __main__()
+        
