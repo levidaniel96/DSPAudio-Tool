@@ -47,19 +47,21 @@ def create_MyDataset(paths,params,flags):
             
             # Generate room impulse response (RIR) for M microphones
             for spk in range(params.num_spk):
-                h = RG.generate(
-                    c=340,  # Sound velocity (m/s)
-                    fs=params.fs,  # Sample frequency (samples/s)
-                    r = [
-                        [room_params['mic_x'] + params.mic_dis_x * (m - params.M / 2), room_params['mic_y'] + params.mic_dis_y * (m - params.M / 2), room_params['mic_z']]
-                        for m in range(params.M)
-                    ],  # Receiver position(s) [x y z] (m)
-                    s=[room_params['sources'][spk]['x'], room_params['sources'][spk]['y'], room_params['sources'][spk]['z']],
-                    L=[room_params['Lx'], room_params['Ly'], room_params['Lz']],
-                    reverberation_time=room_params['T60'],
-                    nsample=int(room_params['T60'] * params.fs),
-                )
-
+                try:
+                    h = RG.generate(
+                        c=340,  # Sound velocity (m/s)
+                        fs=params.fs,  # Sample frequency (samples/s)
+                        r = [
+                            [room_params['mic_x'] + params.mic_dis_x * (m - params.M / 2), room_params['mic_y'] + params.mic_dis_y * (m - params.M / 2), room_params['mic_z']]
+                            for m in range(params.M)
+                        ],  # Receiver position(s) [x y z] (m)
+                        s=[room_params['sources'][spk]['x'], room_params['sources'][spk]['y'], room_params['sources'][spk]['z']],
+                        L=[room_params['Lx'], room_params['Ly'], room_params['Lz']],
+                        reverberation_time=room_params['T60'],
+                        nsample=int(room_params['T60'] * params.fs),
+                    )
+                except ValueError as e:
+                    print("An error occurred while generating RIR with some parameters, skipping this sample")
                 # Signal processing for M microphones           
                 #%% create noises
                 if flags.white_noise:
