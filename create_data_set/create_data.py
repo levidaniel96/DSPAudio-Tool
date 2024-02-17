@@ -43,7 +43,6 @@ def create_MyDataset(paths,params,flags):
             room_params['fs'] = params.fs
             room_params['Sample_num'] = sample_num
             
-            writer.writerow(room_params.values())    
             
             # Generate room impulse response (RIR) for M microphones
             for spk in range(params.num_spk):
@@ -62,6 +61,8 @@ def create_MyDataset(paths,params,flags):
                     )
                 except ValueError as e:
                     print("An error occurred while generating RIR with some parameters, skipping this sample")
+                
+                writer.writerow(room_params.values())    
                 # Signal processing for M microphones           
                 #%% create noises
                 if flags.white_noise:
