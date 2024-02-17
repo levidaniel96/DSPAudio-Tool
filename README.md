@@ -10,4 +10,6 @@ This folder contains the code to estimate the reverberation time of a room impul
 
 ## multi_channel_algorithms 
 This folder contains the code to implement several multi-channel algorithms. The algorithms implemented are:
-- Beamforming:
+- MVDR - Minimum variance distortionless response (Numpy and Pytorch)
+- LCMV - Linearly constrained minimum variance (Numpy and Pytorch)
+- RTF(Realtive Transfer Function) estimation using GEVD(Generalized Eigen Value Decomposition) 
