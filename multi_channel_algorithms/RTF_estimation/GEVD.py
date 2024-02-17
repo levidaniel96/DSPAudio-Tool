@@ -12,9 +12,9 @@ def GEVD(Qzz,Qvv,params):
     Output:
         g: RTFs in time domain 
     ''' 
-    a_hat_GEVD=np.zeros([int(eval(params.NUP)),params.M],dtype=complex)  
+    a_hat_GEVD=np.zeros([int(params.NUP),params.M],dtype=complex)  
     G_full=np.zeros([params.NFFT,params.M],dtype=complex)
-    for k in range(int(eval(params.NUP))):
+    for k in range(int(params.NUP)):
         D_,V_ = eigh(Qvv[k,:,:])
         idx=np.flip(np.argsort(D_))
         D=D_[idx]
@@ -38,8 +38,8 @@ def GEVD(Qzz,Qvv,params):
             imag = (2*np.random.binomial(1,0.5,len(ind))-1)*np.mean(np.imag(a_hat_GEVD[:,m]))
             a_hat_GEVD[ind,m]=real+1j*imag
     ## reconstruct the RTFs         
-    G_full[:int(eval(params.NUP))]=a_hat_GEVD
-    G_full[int(eval(params.NUP)):]=np.flip(a_hat_GEVD[1:int(eval(params.NUP))-1], axis=0).conj()
+    G_full[:int(params.NUP)]=a_hat_GEVD
+    G_full[int(params.NUP):]=np.flip(a_hat_GEVD[1:int(params.NUP)-1], axis=0).conj()
     G_full[params.NFFT//2]=1
     # inverse fft to get the RTFs in time domain
     g=ifft(G_full[:,:].T).T
