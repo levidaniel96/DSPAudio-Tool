@@ -1,7 +1,13 @@
+import numpy as np
+import scipy.signal as ss
+from scipy.io import loadmat
+import os
+import scipy.io as sio
+from multi_channel_algorithms.RTF_estimation.GEVD import GEVD
+from multi_channel_algorithms.RTF_estimation.creat_Qvv_Qzz import creat_Qvv_Qzz
 
 def  estimate_RTFs(paths,params):
-    data = loadmat(paths.test_data_path+'test_data.mat')  
-    y=np.array(data['y'])        
+          
     frame_count = 1 + (y.shape[0] - params.wlen ) // params.n_hop
     Y_STFT_matrix=np.zeros([int(eval(params.NUP)),frame_count,params.M],dtype=complex)
 
@@ -25,8 +31,15 @@ def  estimate_RTFs(paths,params):
     return RTFs_to_net
 
 def __main__():
-    paths = paths_class()
-    params = params_class()
+    aud, input_fs = sf.read(fpath)
+    fs = sampling_rate
+    if input_fs != fs:
+        audio = librosa.resample(aud, input_fs, fs)
+    else:
+        audio = aud    
+    data = loadmat(test_data_path+'test_data.mat')  
+    y=np.array(data['y'])  
+
     estimate_RTFs(paths,params)
 
 if __name__ == '__main__':
