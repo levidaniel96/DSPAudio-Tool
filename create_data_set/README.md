@@ -27,8 +27,13 @@ The `config.yaml` file contains various parameters used to configure the data se
 - Microphone parameters specifying the microphone configuration.
 - Room parameters determining the dimensions and characteristics of the room.
 - Noise parameters controlling the levels of white noise and environmental noise.
-- Data set paths specifying the locations for clean data sets and the saved data set.
 
 ## Flags
 
 Boolean flags in the `config.yaml` file control various aspects of the data set generation process, such as saving room impulse responses (RIR), audio waveforms, and noise types.
+
+## Paths
+
+The `config.yaml` file also includes paths to the directories where the data set and other resources will be saved.
+there is a path for the clean data set speech and the environment noise.
+notice that the environment noise is not directonal and it is the same for all the microphones.
