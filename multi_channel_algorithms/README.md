@@ -1,6 +1,6 @@
 # multi channel algorithms 
 
-# RTFs estimation
+## RTFs estimation
 
 estimation of RTFs using GEVD.
 the GEVD is computed using the covariance matrices of the signal and noise.
@@ -20,7 +20,9 @@ input parameters:
 output:
 - `RTFs` - the RTFs in time domain
 
-# MVDR beamforming - numpy implementation
+
+## MVDR beamforming
+### MVDR beamforming - numpy implementation
 
 MVDR beamforming is a method to estimate the signal of interest using the noise covariance matrix and the RTFs.
 the algorithm assume that the noise and signal segment is known.
@@ -40,7 +42,7 @@ output:
 - `y` - the estimated signal of interest
 
 
-# MVDR beamforming - pytorch implementation
+### MVDR beamforming - pytorch implementation
 
 MVDR beamforming is a method to estimate the signal of interest using the noise covariance matrix and the RTFs.
 the algorithm assume that the noise and signal segment is known and the RTFs are given.
