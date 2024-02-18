@@ -12,16 +12,10 @@ def ifft_shift_RTFs(RTFs, device, batch_size, M, wlen, Nr, Nl,ref_Mic=2):
     # Initialize a tensor for shifted RTFs with zeros
     RTFs_ = torch.zeros((batch_size, wlen, M)).to(device)
     
-    # Assign values to the shifted RTFs tensor based on indexing
-    RTFs_[:, :Nr,mic_list[0]] = RTFs[:, 0, len_of_RTF * 0:len_of_RTF * 0 + Nr]
-    RTFs_[:, :Nr, mic_list[1]] = RTFs[:, 1, len_of_RTF * 0:len_of_RTF * 0 + Nr]
-    RTFs_[:, :Nr, mic_list[2]] = RTFs[:, 2, len_of_RTF * 0:len_of_RTF * 0 + Nr]
-    RTFs_[:, :Nr, mic_list[3]] = RTFs[:, 3, len_of_RTF * 0:len_of_RTF * 0 + Nr]
-    
-    RTFs_[:, wlen - Nl:, mic_list[0]] = RTFs[:, 0, len_of_RTF * 1 - Nl:len_of_RTF * 1]
-    RTFs_[:, wlen - Nl:, mic_list[1]] = RTFs[:, 1, len_of_RTF * 1 - Nl:len_of_RTF * 1]
-    RTFs_[:, wlen - Nl:, mic_list[2]] = RTFs[:, 2, len_of_RTF * 1 - Nl:len_of_RTF * 1]
-    RTFs_[:, wlen - Nl:, mic_list[3]] = RTFs[:, 3, len_of_RTF * 1 - Nl:len_of_RTF * 1]
+    # Assign values to the shifted RTFs tensor based on indexing using a for loop
+    for mic_index in range(M):
+        RTFs_[:, :Nr, mic_list[mic_index]] = RTFs[:, mic_index, len_of_RTF * 0:len_of_RTF * 0 + Nr]
+        RTFs_[:, wlen - Nl:, mic_list[mic_index]] = RTFs[:, mic_index, len_of_RTF * 1 - Nl:len_of_RTF * 1]
     
     # Set the value at index (0, ref_Mic) to 1 for the reference microphone
     RTFs_[:, 0, ref_Mic] = 1
