@@ -1,17 +1,14 @@
 
 import numpy as np
 
-from scipy.linalg import eigh
-from scipy.linalg import fractional_matrix_power
-from scipy.fft import fft, ifft
 import scipy.signal as ss
 from numpy import linalg as LA
 import math
 import torch
-nfft = 4096#//2
+nfft = 4096
 NUP = int(nfft/2)+1
 
-wlen = 4096#//2
+wlen = 4096
 fs = 16000
 overlap = int(wlen * 3 / 4)
 n_hop=wlen-overlap

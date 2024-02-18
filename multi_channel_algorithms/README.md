@@ -7,13 +7,18 @@ the GEVD is computed using the covariance matrices of the signal and noise.
 the signal and noise covariance matrices are computed using the signal and noise segments.
 the algorithm assumes that the noise and signal segment is known.
 input parameters:
-- `X` - the signal segment
-- `N` - the noise segment
+- `input` - the noisy signal 
+- `start_time_spk` - the start time of the signal segment
+- `end_time_spk` - the end time of the signal segment
+- `start_time_noise` - the start time of the noise segment
+- `end_time_noise` - the end time of the noise segment
 - `M` - the number of microphones
-- `L` - the number of samples in the signal and noise segments
-- `P` - the number of sources
+- STFT parameters such as the window size, overlap, and the number of FFT points.
+- `Nl` - length of the RTF cut from the left
+- `Nr` - length of the RTF cut from the right 
+- `ref_mic` - the reference microphone
 output:
-- `w` - the RTFs
+- `RTFs` - the RTFs in time domain
 
 # MVDR beamforming
 

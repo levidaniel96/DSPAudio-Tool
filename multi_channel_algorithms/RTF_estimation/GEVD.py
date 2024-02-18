@@ -10,7 +10,7 @@ def GEVD(Qzz,Qvv,params):
         Qvv: speech covariance matrix
         params: parameters  
     Output:
-        g: RTFs in time domain 
+        RTFs_n: RTFs in time domain 
     ''' 
     a_hat_GEVD=np.zeros([int(params.NUP),params.M],dtype=complex)  
     G_full=np.zeros([params.NFFT,params.M],dtype=complex)
@@ -28,7 +28,7 @@ def GEVD(Qzz,Qvv,params):
         idx=np.argmax(L)       
         temp = Rv1_2 @ U[:,idx]
         a_hat_GEVD[k,:] = temp/temp[params.ref_mic]
-        ## remove outliers
+        ## remove outliers - 3 sigma rule
     for m in range(params.M):
         ind = np.squeeze(np.array(np.where(abs(a_hat_GEVD[:,m])>3*np.mean(abs(a_hat_GEVD[:,m])))))
         if ind.size==1:
@@ -41,6 +41,6 @@ def GEVD(Qzz,Qvv,params):
     G_full[:int(params.NUP)]=a_hat_GEVD
     G_full[int(params.NUP):]=np.flip(a_hat_GEVD[1:int(params.NUP)-1], axis=0).conj()
     G_full[params.NFFT//2]=1
-    # inverse fft to get the RTFs in time domain
-    g=ifft(G_full[:,:].T).T
-    return g
+    # inverse fft to get the RTFs in time domain 
+    RTFs_n=ifft(G_full[:,:].T).T
+    return RTFs_n

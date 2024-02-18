@@ -26,15 +26,19 @@ def __main__():
     parser = argparse.ArgumentParser()
     parser.add_argument('--input', type=str, default='/home/dsi/levidan2/code/LCMV/code_for_git/create_data_set_RIR/multi_channel_algorithms/y.wav', help='Path to the input audio file')
     parser.add_argument('--output', type=str, default='/home/dsi/levidan2/code/LCMV/code_for_git/create_data_set_RIR/multi_channel_algorithms/RTF_estimation/', help='Path to the output directory')
-    parser.add_argument('--NFFT', type=int, default=512, help='FFT size')
-    parser.add_argument('--wlen', type=int, default=512, help='Window length')
-    parser.add_argument('--n_hop', type=int, default=256, help='Hop size')
-    parser.add_argument('--Nl', type=int, default=256, help='length of the RTF cut from the left')
-    parser.add_argument('--Nr', type=int, default=256, help='length of the RTF cut from the right')
+    parser.add_argument('--NFFT', type=int, default=2048, help='FFT size')
+    parser.add_argument('--wlen', type=int, default=2048, help='Window length')
+    parser.add_argument('--n_hop', type=int, default=512, help='Hop size')
+    parser.add_argument('--Nl', type=int, default=1024, help='length of the RTF cut from the left')
+    parser.add_argument('--Nr', type=int, default=1024, help='length of the RTF cut from the right')
     parser.add_argument('--NUP', type=int, default=None, help='Number of frequency bins')
     parser.add_argument('--M', type=int, default=4, help='Number of microphones')
     parser.add_argument('--fs', type=int, default=16000, help='Sampling rate')
     parser.add_argument('--ref_mic', type=int, default=2, help='Reference microphone')
+    parser.add_argument('--start_time_spk', type=float, default=2, help="start time of the speech segment in seconds")
+    parser.add_argument('--end_time_spk', type=float, default=4, help="end time of the speech segment in seconds")
+    parser.add_argument('--start_time_noise', type=float, default=0, help="start time of the noise segment in seconds")
+    parser.add_argument('--end_time_noise', type=float, default=2, help="end time of the noise segment in seconds")
     params = parser.parse_args()
 # Calculate default value for NUP based on NFFT
     if params.NUP is None:
@@ -50,6 +54,8 @@ def __main__():
     h_cut=np.zeros([params.Nl+params.Nr,params.M])
     h_cut[:params.Nr,:]=np.real(RTFs[:params.Nr,:])
     h_cut[params.Nr:,:]=np.real(RTFs[params.NFFT-params.Nl:params.NFFT,:])
+    ## normalize the RTFs
+    h_cut=h_cut/np.max(np.abs(h_cut))
     sf.write(os.path.join(params.output, 'RTFs.wav'), h_cut, params.fs)
     
 
