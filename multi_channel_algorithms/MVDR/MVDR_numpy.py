@@ -63,13 +63,9 @@ def MVDR(x,y,noise,RTFs,time_esti):
     _,Qvv = creat_Qvv_Qzz(Y_STFT_matrix,time_esti)
 
     for f in range(NUP):
-        inv_qvv = LA.inv(np.squeeze(Qvv[f, :, :]) + e * LA.norm(Qvv[f, :, :]) * np.eye(M))
-        #print(inv_qvv.shape)        
-        b = inv_qvv @ RTFs[f,:]
-        #print(b.shape)
-        #print((np.squeeze(RTFs[f, :]).conj().T @ b))        
-        denom = np.squeeze(RTFs[f, :]).conj().T @ b#+e*LA.norm(np.squeeze(RTFs[f, :]).conj().T @ b)
-        #print(denom)        
+        inv_qvv = LA.inv(np.squeeze(Qvv[f, :, :]) + e * LA.norm(Qvv[f, :, :]) * np.eye(M))      
+        b = inv_qvv @ RTFs[f,:]    
+        denom = np.squeeze(RTFs[f, :]).conj().T @ b
 
         w = b / denom
         output_y_stft[f,:]=w.conj() @ np.squeeze(Y_STFT_matrix[f,:,:]).T
