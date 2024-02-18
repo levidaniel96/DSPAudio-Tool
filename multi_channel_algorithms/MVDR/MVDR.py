@@ -1,11 +1,11 @@
 import torch
-from utils import ifft_shift_RTFs,create_Qvv_k_batch
+from multi_channel_algorithms.utils import ifft_shift_RTFs,create_Qvv_k_batch
 
-def MVDR_noisy_and_oracle_loss(y,RTFs_first_spk,args,device,batch_size):
+def MVDR_noisy_and_oracle_loss(y,RTFs,args,device,batch_size):
     '''
-    calculate loss for MVDR algorhitem with noisy and oracle RTFs 
+    MVDR algorhitem with RTFs 
     y: (batch_size,frame_count,M)
-    RTFs_first_spk: (batch_size,M,len_of_RTF)
+    RTFs: (batch_size,M,len_of_RTF)
     args: args object
     device: device to use
     batch_size: batch size
@@ -15,7 +15,7 @@ def MVDR_noisy_and_oracle_loss(y,RTFs_first_spk,args,device,batch_size):
     eye_M=torch.eye(args.M).repeat(batch_size, 1, 1).to(device)
     frame_count = 1 + (y.shape[1] - args.wlen ) //args.n_hop
  
-    h_first_spk=ifft_shift_RTFs(RTFs_first_spk,device,batch_size,args.M,args.wlen,args.Nr,args.Nl,ref_Mic=args.ref_mic)
+    h_rtfs=ifft_shift_RTFs(RTFs,device,batch_size,args.M,args.wlen,args.Nr,args.Nl,ref_Mic=args.ref_mic)
 
 
     Y_STFT_matrix=torch.zeros((batch_size,int(args.NUP),frame_count,args.M),dtype=torch.cfloat).to(device)
@@ -24,7 +24,7 @@ def MVDR_noisy_and_oracle_loss(y,RTFs_first_spk,args,device,batch_size):
     output_y_stft = torch.zeros(batch_size,int(args.NUP),frame_count, dtype=torch.cfloat).to(device)
   
 
-    H_1 = torch.fft.fft(h_first_spk,dim=1)
+    H_1 = torch.fft.fft(h_rtfs,dim=1)
     
     for f in range(int(args.NUP)):
         # calculate Qvv for each batch and each frequency point (k) in the STFT domain 

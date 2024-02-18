@@ -25,12 +25,14 @@ output:
 MVDR beamforming is a method to estimate the signal of interest using the noise covariance matrix and the RTFs.
 the algorithm assume that the RTFs and the noise segment is known and given.
 input:
-- `Rxx` - the signal covariance matrix
-- `Rnn` - the noise covariance matrix
-- `Rxx` and `Rnn` are computed using the signal and noise segments.
-- `w` - the RTFs
+- `input` - the noisy signal
+- `RTFs` - the RTFs
+- `start_time_noise` - the start time of the noise segment
+- `end_time_noise` - the end time of the noise segment
 output:
 - `y` - the estimated signal of interest
+
+the noise covariance matrix is computed in the loop for each frequency bin to reduce the computational complexity.
 
 # LCMV beamforming
 

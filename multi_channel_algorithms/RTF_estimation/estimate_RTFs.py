@@ -5,8 +5,10 @@ import scipy.io as sio
 import soundfile as sf
 import librosa
 import argparse
-from GEVD import GEVD
+import sys
+sys.path.append('/home/dsi/levidan2/code/LCMV/code_for_git/create_data_set_RIR/multi_channel_algorithms/')
 from utils import creat_Qvv_Qzz
+from RTF_estimation.GEVD import GEVD
 
 
 def  estimate_RTFs(params,y):
@@ -41,7 +43,7 @@ def  estimate_RTFs(params,y):
     RTFs=GEVD(Qzz,Qvv,params)
     
     
-    return RTFs
+    return Qvv,RTFs
 
 def __main__():
     parser = argparse.ArgumentParser()
@@ -70,7 +72,7 @@ def __main__():
             aud = librosa.resample(aud.T, orig_sr=input_fs, target_sr=params.fs)  
             aud = aud.T                
     audio = aud
-    RTFs=estimate_RTFs(params,audio)
+    _,RTFs=estimate_RTFs(params,audio)
     #%% cut the RTFs to Nl and Nr and save them 
     h_cut=np.zeros([params.Nl+params.Nr,params.M])
     h_cut[:params.Nr,:]=np.real(RTFs[:params.Nr,:])
