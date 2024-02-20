@@ -6,7 +6,7 @@ def MVDR_noisy_and_oracle_loss(y,RTFs,args,device,batch_size):
     This function calculates the MVDR loss for a batch of signals
     inputs:
         y: (batch_size,frame_count,M)
-        RTFs: (batch_size,M,len_of_RTF)
+        RTFs: (batch_size,M-1,len_of_RTF)
         args: args object
         device: device to use
         batch_size: batch size

@@ -3,9 +3,24 @@ import numpy as np
 import math
 
 def ifft_shift_RTFs(RTFs, device, batch_size, M, wlen, Nr, Nl,ref_Mic=2):
-    # Calculate the total length of RTFs
+    ''' 
+    this function is use to add zeros to the RTFs to make it the same length as the FFT length
+    and add the reference microphone to the RTFs matrix
+    Input:
+    
+        RTFs: (batch_size, M-1, Nl + Nr)
+        device: device to run the code
+        batch_size: number of batches
+        M: number of microphones
+        wlen: window length
+        Nr: number of right zeros to add
+        Nl: number of left zeros to add
+        ref_Mic: reference microphone
+    Output:
+        RTFs_: (batch_size, wlen, M)
+'''
     mic_list = torch.arange(M)
-    mic_list = torch.cat((mic_list[ref_Mic:], mic_list[:ref_Mic]))
+    mic_list = torch.cat((mic_list[:ref_Mic], mic_list[ref_Mic:]))
     
     len_of_RTF = Nl + Nr
     

@@ -1,5 +1,9 @@
+import numpy as np
+import scipy.signal as ss
 
-def LCMV_RTFs(first_spk,second_spk,y,noise,RTFs,time_esti,params.wlen=4096,nfft=4096):#,estimate_RTF='no',RTFs=None):
+
+
+def LCMV_RTFs(first_spk,second_spk,y,noise,RTFs,time_esti,wlen=4096,nfft=4096):#,estimate_RTF='no',RTFs=None):
     #frame_count=Y_STFT_matrix.shape[2]
     win = np.hamming(params.wlen)
     overlap = int(params.wlen * 3 / 4)
