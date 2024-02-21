@@ -58,7 +58,7 @@ output:
 
 
 
-# LCMV beamforming
+## LCMV beamforming
 
 LCMV (Linearly Constrained Minimum Variance) beamforming is a method used to estimate the signal of interest using the noise covariance matrix and the RTFs.
 The algorithm assumes that the RTFs and the noise correlation matrix are known and provided. 
