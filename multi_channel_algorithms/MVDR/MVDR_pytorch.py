@@ -31,7 +31,7 @@ def MVDR_noisy_and_oracle_loss(y,RTFs,args,device,batch_size):
     
     for f in range(int(args.NUP)):
         # calculate Qvv for each batch and each frequency point (k) in the STFT domain 
-        Qvv=create_Qvv_k_batch(Y_STFT_matrix[:,f,:frame_count//5,:])
+        Qvv=create_Qvv_k_batch(Y_STFT_matrix[:,f,:args.noise_frame_end,:])
         H_k = torch.unsqueeze(torch.squeeze(H_1[:,f,:]),2)
         # MVDR weights calculation - w 
         inv_qvv = torch.inverse(Qvv+e*torch.norm(Qvv,dim=(1,2))[:, None, None]*eye_M) #+ e * LA.norm(Qvv[f, :, :]) * torch.eye(M).to(device))
